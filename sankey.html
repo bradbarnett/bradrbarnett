@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  	<link rel="stylesheet" href="foundation/css/foundation.css" />
+  	<link rel="stylesheet" href="app.css" />
+  	<link rel="stylesheet" type="text/css" href="js/slick.css"/>
+  	<link href='https://fonts.googleapis.com/css?family=Noto+Sans:700' rel='stylesheet' type='text/css'>
+  	<link href='https://fonts.googleapis.com/css?family=Noto+Sans:400' rel='stylesheet' type='text/css'>
+	<script src="js/d3/d3.min.js"></script>
+	<script src="js/sankey.js"></script>
+	<!-- <script src="js/main.js"></script> -->
+	<script src="js/vendor/modernizr.js"></script>
+	<meta charset="utf-8" />
+	<title>SANKEY</title>
+	<style>
+
+		</style>
+</head>
+<body id="home">
+
+<!-- <ul id="menu">
+	<a href="#about"><li>ABOUT</li></a>
+	<li><a href="#sankey">WHAT I DO</a></li>
+	<li><a href="#work">WORK</a></li>
+	<li><a href="#ending">MORE</a></li>
+</ul> -->
+
+<section id="intro">
+
+	<div class="row">
+		<div class="columns small-12 sepia" id="introbg"></div>
+		<div class="columns small-12" id="start">
+			<div id="hi-there" class="columns small-12 big-text text-center">
+			Hi there, my name is 
+			</div>
+			<div id="my-name" class="columns small-12 text-center">
+			Brad Barnett
+			
+			</div>
+		</div>
+	</div>
+</section>
+<section id="about">
+
+	<div class="row">
+		<div class="columns small-12 large-2 title">
+			<h1 class="title">About</h1>
+		</div>
+<!-- 		<div class="columns small-12 large-4 large-offset-1 right end">
+			<p class="bio">
+				I am a city planner and designer based out of the Bay Area, CA. For the last few years I've been focused on the intersection of design, technology, and planning, trying to answer questions like: 				
+			</p>
+			<ul id="about-questions">
+				<li>"How can we communicate the complexity of planning decisions to the public?"</li>
+				<li>"What would be the impacts to our region of continuing to sprawl vs more compact development patterns?"</li>
+				<li>"What's the best way to visualize the relationship between social equity issues and the built environment?"</li>
+			</ul>
+
+		</div>
+		<div class="columns small-12 large-4">
+		<img id="biophoto" src="img/bio.png">
+		</div> -->
+		
+
+		<div class="columns small-12 large-offset-2 text-center title large-4">
+		<img id="biophoto" src="img/bio.png">
+		</div>	
+	
+		<div class="columns small-12 large-offset-4 left large-4">
+			<p class="bio">
+			I am a city planner and designer based out of San Francisco, CA. I work at <a href="http://www.calthorpeanalytics.com">Calthorpe Analytics</a>, and before that I was at <a href="http://www.placematters.org">PlaceMatters</a> in Denver, CO. I began my career focused on how regulations affect urban design: namely form-based codes and zoning controls. 
+</p>
+<p class="bio">
+			Over time, I've become more focused on projects that sit at the intersection of design, technology, and planning. Today, I work with communities and organizations to answer questions like: 	
+			</p>
+			<ul id="about-questions">
+				<li>"How can we communicate the complexity of these planning decisions to the public?"</li>
+				<li>"What would be the impacts to our region of continuing to sprawl vs more compact development patterns?"</li>
+				<li>"What's the best way to visualize the relationship between social equity issues and the built environment?"</li>
+			</ul>
+			<p class="bio">
+			
+			</p>
+		</div>	
+
+				
+	</div>
+</section>
+<section id="sankey">
+<div class="row">
+<div class="columns small-12 title">
+<h1 class="title">What I Do</h1>
+</div>
+<div class="columns small-12 large-12" id="chart"></div>
+<script>
+		var units = "Widgets";
+		var margin = {top: 10, right: 0, bottom: 10, left: 75};
+	    var	width = 1200 - margin.left - margin.right;
+	    var	height = 500 - margin.top - margin.bottom;
+
+		var formatNumber = d3.format(",.0f");    // decimal places
+		var format = function(d) { return formatNumber(d) + " " + units; };
+		var color = d3.scale.category20();
+
+		var svg = d3.select("#chart")
+			.append("svg")
+			.attr("id","main-svg")
+	    	.attr("width", width + margin.left + margin.right)
+		    .attr("height", height + margin.top + margin.bottom)
+		  	.append("g")
+		    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+		var defs = svg.append("defs");
+
+	    var sankey = d3.sankey()
+		    .nodeWidth(7)
+		    .nodePadding(25)
+		    .size([width, height]);
+
+	    var path = sankey.link();
+
+	    d3.json("brad.json", function(error, graph) {
+
+            var nodeMap = {};
+		    graph.nodes.forEach(function(x){ 
+		    	nodeMap[x.name] = x; 
+		    });
+		    
+		    graph.links = graph.links.map(function(x) {
+		      return {
+		        source: nodeMap[x.source],
+		        target: nodeMap[x.target],
+		        value: x.value
+		      };
+		    });
+
+			sankey
+			  	.links(graph.links)
+			  	.nodes(graph.nodes)
+			  	.layout(32);
+
+//START GRADIENT STUFF//
+
+			function getGradID(d){
+			    return "linkGrad-" + d.source.name + "-" + d.target.name;
+			}
+			function nodeColor(d) { 
+			    return d.color = color(d.name.replace(/ .*/, ""));
+			}
+
+			// create gradients for the links
+
+			var grads = defs.selectAll("linearGradient")
+			        .data(graph.links, getGradID);
+
+			grads.enter().append("linearGradient")
+			        .attr("id", getGradID)
+			        .attr("gradientUnits", "userSpaceOnUse");
+
+			function positionGrads() {
+			    grads.attr("x1", function(d){return d.source.x;})
+			        .attr("y1", function(d){return d.source.y;})
+			        .attr("x2", function(d){return d.target.x;})
+			        .attr("y2", function(d){return d.target.y;});
+			}
+			positionGrads();
+
+			grads.html("") //erase any existing <stop> elements on update
+			    .append("stop")
+			    .attr("offset", "0%")
+			    .attr("stop-color", function(d){
+			        return nodeColor( (+d.source.x <= +d.target.x)? 
+			                         d.source: d.target) ;
+			    });
+
+			grads.append("stop")
+			    .attr("offset", "100%")
+			    .attr("stop-color", function(d){
+			        return nodeColor( (+d.source.x > +d.target.x)? 
+			                         d.source: d.target) 
+	
+			    });
+
+
+//FINISH GRADIENT STUFF//
+
+var link = svg.append("g")
+				.selectAll(".link")
+				.data(graph.links)
+				.enter()
+				.append("path")
+				.attr("class", "link")
+				.attr("d", path)
+				.style("stroke", function(d){
+			        return "url(#" + getGradID(d) + ")";
+			    })
+		      	.attr("id", function(d,i){
+			    	d.id = i;
+			        return "link-"+i;
+			    })
+				.style("stroke-width", function(d) { 
+					
+					return Math.max(1, d.dy); })
+				.sort(function(a, b) { 
+					return b.dy - a.dy; })
+				;
+
+			link.append("title")
+				.text(function(d) {
+					return d.source.name + " → " + 
+					d.target.name + "\n" + format(d.value); });
+
+
+
+			var node = svg.append("g")
+				.selectAll(".node")
+		      	.data(graph.nodes)
+			    .enter().append("g")
+			    .attr("class", "node")
+			    .attr("transform", function(d) {
+
+			        	return "translate(" + d.x + "," + d.y + ")"; 
+		      	})
+				.on("mouseover",highlight_node_links)
+				.on("mouseout",dehighlight_node_links)
+		      	;
+
+			node.append("rect")
+				.attr("height", function(d) { return d.dy; })
+				.attr("width", sankey.nodeWidth())
+				.style("fill", function(d) { 
+					if (d.name == "Urban Planner") {
+						return "rgba(113, 102, 72,.5)";
+					}
+					else {
+					return "rgba(113, 102, 72, .5)";
+						// d.color = color(d.name.replace(/ .*/, "")); 
+				}
+				})
+				.style("stroke", function(d) { 
+					return "rgba(113, 102, 72, .2)"; 
+				});
+			
+		   node.append("text")
+				.attr("y", function(d) { return d.dy / 2; })
+				.attr("dy", ".35em")
+				.attr("x", 6 + sankey.nodeWidth())
+				.attr("text-anchor", "start")
+				.attr("transform", null)
+				.text(function(d) { return d.name; })
+				.filter(function(d) { return d.x < width / 2; });
+				
+
+			
+
+		function highlight_node_links(node,i){
+
+		    var remainingNodes=[],
+		        nextNodes=[];
+
+		    var stroke_opacity = 0;
+		    var font_weight = 400;
+		    if( d3.select(this).attr("data-clicked") == "1" ){
+		    	d3.select(this).attr("data-clicked","0");
+		      	stroke_opacity = 0.25;
+		    }else{
+		      	d3.select(this).attr("data-clicked","1");
+		      	stroke_opacity = 0.5;
+		      	font_weight = 600;
+		    }
+
+		    var traverse = [{
+				linkType : "sourceLinks",
+				nodeType : "target"
+				},{
+				linkType : "targetLinks",
+				nodeType : "source"
+				}];
+
+		    traverse.forEach(function(step){
+		      	node[step.linkType].forEach(function(link) {
+			        remainingNodes.push(link[step.nodeType]);
+			
+			        highlight_link(link.id, stroke_opacity);
+		      	});
+
+		      while (remainingNodes.length) {
+		        nextNodes = [];
+		        remainingNodes.forEach(function(node) {
+		          node[step.linkType].forEach(function(link) {
+		            nextNodes.push(link[step.nodeType]);
+		            highlight_link(link.id, stroke_opacity);
+		          });
+		        });
+		        remainingNodes = nextNodes;
+		      }
+		    });
+		  }
+
+		function dehighlight_node_links(){
+			d3.selectAll(".link").style("stroke-opacity", "0.2").attr("data-clicked","0");
+			d3.selectAll(".node").style("stroke-opacity", "0.2").attr("data-clicked","0");
+			
+		}
+
+		function highlight_link(id,opacity){
+			console.log(id);
+		  	d3.select("#link-"+id).style("stroke-opacity", opacity);
+		}
+
+
+
+		});
+
+
+</script>
+</div>
+</section>
+<section id="work">
+	<div id="work-title" class="row">
+		<div class="columns small-12">
+			<h1 class="title">Work</h1>
+		</div>
+	</div>
+		<div class="row work-item">
+		<div class="columns small-12 medium-4 work-desc">
+			<h3>EatSpeak</h3>
+			<h5><a href="http://bradbarnett.github.io/eatspeak">http://bradbarnett.github.io/eatspeak</a></h5>
+			<p>
+				Eatspeak tries to answer a straightforward question: "What is the state of ethnic enclaves in a contemporary American city like Seattle?" By mapping data on language spoken in the home from the US Census and business locations from Yelp, residential and business clustering patterns show whether residential patterns of certain ethnic groups continue to cluster around corresponding businesses or not.
+			</p>
+		</div>
+		<div class="columns small-12 medium-8 work-main carousel">
+			<div><img src="img/es1.png"></div>
+			<div><img src="img/es3.png"></div>
+			<div><img src="img/es4.png"></div>
+		</div>
+	</div>
+	<div class="row work-item">
+		<div class="columns small-12 medium-4 work-desc">
+			<h3>Lifetime Communities Tool</h3>
+			<h5><a href="#"></a></h5>
+			<p>
+				One of the more pressing issues facing many communities is the changing needs of residents as they age. Driving becomes difficult, building design can be a burden, and the amenities seniors need can be very different than the needs of young families or singles. Lifetime Communities are places designed to take into account the changing needs of residents at all age levels. 
+			</p>
+			<p>
+			While at PlaceMatters, I worked with the Center for Aging at Indiana University to build the Lifetime Communities Tool, a survey that gauges current and prospective residents of Bloomington, IN on their lifestyle preferences while teaching them about the relationship between different aspects of the built environment and aging in place. Read a full writeup about the tool <a href="http://placematters.org/blog/2014/09/09/tools-for-aging-in-place/">here</a>.
+			</p>
+		</div>
+		<div class="columns small-12 medium-8 work-main carousel">
+			<div><img src="img/lifetime1.png"></div>
+			<div><img src="img/lifetime2.png"></div>
+			<div><img src="img/lifetime3.png"></div>
+			<div><img src="img/lifetime4.png"></div>
+		</div>
+	</div>
+	<div class="row work-item">
+		<div class="columns small-12 medium-4 work-desc">
+			<h3>New River Valley Livability Initiative</h3>
+			<h5><a href="#"></a></h5>
+			<p>
+				The New River Valley is a rural region surrounding Blacksburg in northwestern Virginia. Like many rural regions, it faces an aging population, a While at PlaceMatters, I supported the New River Valley Livability Initiative Consortium, particularly the New River Valley Planning District Commission (NRVPDC), in creating the region’s first Livability Plan. This project focused on planning to enhance regional prosperity. I led the process of working with New River Valley Planning District Commission staff and various committees to define alternative scenarios for the future of the region, compile and analyze data, visualize scenario outcomes, and integrate the scenario analysis into the final study. 
+			</p>
+			<p>
+				
+			</p>
+		</div>
+		<div class="columns small-12 medium-8 work-main carousel">
+			<div><img src="img/nrv1.png"></div>
+			<div><img src="img/nrv3.png"></div>
+			<div><img src="img/nrv4.png"></div>
+			<div><img src="img/nrv2.png"></div>
+		</div>
+	</div>	
+	<div class="row work-item">
+		<div class="columns small-12 medium-4 work-desc">
+			<h3>Zip Zip</h3>
+			<h5><a href="http://bradbarnett.github.io/zipzip">http://bradbarnett.github.io/zipzip</a></h5>
+			<p>
+				Like many millenials, I've lived in several places over my lifetime. I wanted a way to visualize the differences between where I grew up (rural Alabama) and where I live today (Bay Area). ZipZip pulls data from the US Census, does some math, and compares the relative difference in two zip codes across a number of data points. 
+			</p>
+			<p>
+				The visualization itself is a twist on the traditional slope graph. By converting all the data points to (relative) percent change, I was able to start at a common beginning point: 0. The slope then represents the "change from zero" from the first zip code to the second zip code. The overall flatness or steepness of the lines as a whole shows how similar or different two zip codes are. Colors code the different categories of data, which provided some interesting patterns. In some cases, demographic differences are the greatest; in other locations the built environment is the most striking change. 
+			</p>
+		</div>
+		<div class="columns small-12 medium-8 work-main carousel">
+			<div><img src="img/zipzip1.png"></div>
+			<div><img src="img/zipzip2.png"></div>
+
+
+		</div>
+	</div>	
+	<div class="row work-item">
+		<div class="columns small-12 medium-4 work-desc">
+			<h3>Calthorpe Analytics Website</h3>
+			<h5><a href="http://www.calthorpeanalytics.com">http://www.calthorpeanalytics.com</a></h5>
+			<p>
+				Calthorpe Analytics is a firm that brings powerful analytics about the impacts of planning decisions to regions and cities. The firm is a spin-off of Calthorpe Associates, widely regarded as one of the pre-eminent urban planning/design firms in the country. As Calthorpe Analytics launched, it became clear the new company needed a new web identity. I worked with other people on staff to develop content strategy, create the overall design, and implementation of our website.  
+			</p>
+		</div>
+		<div class="columns small-12 medium-8 work-main carousel">
+			<div><img src="img/ca1.png"></div>
+			<div><img src="img/ca2.png"></div>
+			<div><img src="img/ca3.png"></div>
+			<div><img src="img/ca4.png"></div>
+
+		</div>
+	</div>	
+
+</section>
+<section id="ending">
+
+	<div class="row">
+		<div class="columns small-12 sepia" id="endingbg"></div>
+		<div class="columns small-12">
+		<div class="row">
+			<div class="columns small-12 title">
+				<h1 class="title">More</h1>
+			</div>
+		</div>
+		<div class="columns small-12 large-3 big-text">
+			You can also get in touch with me or see what I'm up to on the following fine sites: 
+		</div>
+		<div class="columns small-12 left large-6 large-offset-2">
+			<a href="http://www.twitter.com/bradrbarnett">
+			<div id="twitter" class="contact-link">
+				<img src="img/twitter.png">
+			</div>
+			</a>
+			<a href="http://www.instagram.com/bradrbarnett">
+			<div id="instagram" class="contact-link">
+				<img src="img/instagram.png">
+			</div>
+			</a>
+			<a href="mailto:bradrbarnett@gmail.com">
+			<div id="email" class="contact-link">
+				<img src="img/gmail.svg">
+			</div>
+			</a>
+		</div>
+
+</section>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/slick.min.js"></script>
+
+<script src="js/foundation.min.js"></script>
+<script>
+  $(document).foundation();
+  $(document).ready(function(){
+  	$('#myModal').foundation('reveal', 'open')
+  	$('.carousel').slick({
+  		arrows: false,
+  		dots:true
+  		});
+  });
+
+</script> 
+</body>
+</html>
+               
