@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 
+	<meta name="viewport" content="width=device-width" />
   	<link rel="stylesheet" href="foundation/css/foundation.css" />
   	<link rel="stylesheet" href="app.css" />
   	<link rel="stylesheet" type="text/css" href="js/slick.css"/>
@@ -30,7 +31,7 @@
 
 	<div class="row">
 		<div class="columns small-12 sepia" id="introbg"></div>
-		<div class="columns small-12" id="start">
+		<div class="columns small-12" id="start" data-100-start="opacity:1;font-size:100%;" data-400-start="opacity:0;font-size:200%;">
 			<div id="hi-there" class="columns small-12 big-text text-center">
 			Hi there, my name is 
 			</div>
@@ -41,7 +42,7 @@
 		</div>
 	</div>
 </section>
-<section id="about">
+<section id="about" data-top-top="-webkit-filter: saturation(1); filter: saturation(1);" data-50-top-bottom="-webkit-filter: saturation(0); filter: saturation(0);">
 
 	<div class="row">
 		<div class="columns small-12 large-2 title">
@@ -67,27 +68,27 @@
 		<img id="biophoto" src="img/bio.png">
 		</div>	
 	
-		<div class="columns small-12 large-offset-4 left large-4">
+		<div class="columns small-12 large-offset-4 left text-justify large-4">
 			<p class="bio">
-			I am a city planner and designer based out of San Francisco, CA. I work at <a href="http://www.calthorpeanalytics.com">Calthorpe Analytics</a>, and before that I was at <a href="http://www.placematters.org">PlaceMatters</a> in Denver, CO. I began my career focused on how regulations affect urban design: namely form-based codes and zoning controls. 
+			I am a city planner and designer based out of San Francisco, CA. I work at <a href="http://www.calthorpeanalytics.com">Calthorpe Analytics</a>, and before that I was at <a href="http://www.placematters.org">PlaceMatters</a> in Denver, CO. My work focuses on projects that sit at the intersection of design, technology, and planning. Specifically, I'm using new media and data visualization to break down traditional problems in city planning, from civic engagement to spatial analysis. 
 </p>
 <p class="bio">
-			Over time, I've become more focused on projects that sit at the intersection of design, technology, and planning. Today, I work with communities and organizations to answer questions like: 	
+			 Past work has looked at how regulations like zoning and other policies can impact urban design. I've also worked extensively on tools and techniques for measuring the impacts of different urban strategies	 towards sustainability goals. Today, I work with communities and organizations to answer questions like: 	
 			</p>
 			<ul id="about-questions">
-				<li>"How can we communicate the complexity of these planning decisions to the public?"</li>
+				<li>"How can we communicate the complexity of specific planning decisions or projects to the public?"</li>
 				<li>"What would be the impacts to our region of continuing to sprawl vs more compact development patterns?"</li>
 				<li>"What's the best way to visualize the relationship between social equity issues and the built environment?"</li>
 			</ul>
 			<p class="bio">
-			
+			I'm always interested in new projects or just connecting with like minded folks, so <a href="#ending">get in touch</a>!
 			</p>
 		</div>	
 
 				
 	</div>
 </section>
-<section id="sankey">
+<section id="sankey" class="show-for-large-up">
 <div class="row">
 <div class="columns small-12 title">
 <h1 class="title">What I Do</h1>
@@ -306,7 +307,7 @@ var link = svg.append("g")
 
 		function highlight_link(id,opacity){
 			console.log(id);
-		  	d3.select("#link-"+id).style("stroke-opacity", opacity);
+		  	d3.select("#link-"+id).style("stroke-opacity", opacity).attr("font-weight","300");		  	
 		}
 
 
@@ -323,24 +324,24 @@ var link = svg.append("g")
 			<h1 class="title">Work</h1>
 		</div>
 	</div>
-		<div class="row work-item">
-		<div class="columns small-12 medium-4 work-desc">
-			<h3>EatSpeak</h3>
-			<h5><a href="http://bradbarnett.github.io/eatspeak">http://bradbarnett.github.io/eatspeak</a></h5>
+		<div class="row work-item" data-center-top="opacity:1;" data-top-top="opacity:1;" data--100-top-bottom="opacity:0;">
+		<div class="columns small-12 large-4 work-desc">
+			<a href="http://bradbarnett.github.io/eatspeak"><div class="work-title">EatSpeak</div></a>
+<!-- 			<h5>http://bradbarnett.github.io/eatspeak</a></h5> -->
 			<p>
 				Eatspeak tries to answer a straightforward question: "What is the state of ethnic enclaves in a contemporary American city like Seattle?" By mapping data on language spoken in the home from the US Census and business locations from Yelp, residential and business clustering patterns show whether residential patterns of certain ethnic groups continue to cluster around corresponding businesses or not.
 			</p>
 		</div>
-		<div class="columns small-12 medium-8 work-main carousel">
+		<div class="columns small-12 large-8 work-main carousel">
 			<div><img src="img/es1.png"></div>
 			<div><img src="img/es3.png"></div>
 			<div><img src="img/es4.png"></div>
 		</div>
 	</div>
-	<div class="row work-item">
-		<div class="columns small-12 medium-4 work-desc">
-			<h3>Lifetime Communities Tool</h3>
-			<h5><a href="#"></a></h5>
+		<div class="row work-item" data-center-top="opacity:0;" data-top-top="opacity:1;" data--100-top-bottom="opacity:0;">
+		<div class="columns small-12 large-4 work-desc">
+			<div class="work-title">Lifetime Communities Tool</div>
+			
 			<p>
 				One of the more pressing issues facing many communities is the changing needs of residents as they age. Driving becomes difficult, building design can be a burden, and the amenities seniors need can be very different than the needs of young families or singles. Lifetime Communities are places designed to take into account the changing needs of residents at all age levels. 
 			</p>
@@ -348,17 +349,17 @@ var link = svg.append("g")
 			While at PlaceMatters, I worked with the Center for Aging at Indiana University to build the Lifetime Communities Tool, a survey that gauges current and prospective residents of Bloomington, IN on their lifestyle preferences while teaching them about the relationship between different aspects of the built environment and aging in place. Read a full writeup about the tool <a href="http://placematters.org/blog/2014/09/09/tools-for-aging-in-place/">here</a>.
 			</p>
 		</div>
-		<div class="columns small-12 medium-8 work-main carousel">
+		<div class="columns small-12 large-8 work-main carousel">
 			<div><img src="img/lifetime1.png"></div>
 			<div><img src="img/lifetime2.png"></div>
 			<div><img src="img/lifetime3.png"></div>
 			<div><img src="img/lifetime4.png"></div>
 		</div>
 	</div>
-	<div class="row work-item">
-		<div class="columns small-12 medium-4 work-desc">
-			<h3>New River Valley Livability Initiative</h3>
-			<h5><a href="#"></a></h5>
+		<div class="row work-item" data-center-top="opacity:0;" data-top-top="opacity:1;" data--100-top-bottom="opacity:0;">
+		<div class="columns small-12 large-4 work-desc">
+		<div class="work-title">
+		New River Valley Livability Initiative</div>
 			<p>
 				The New River Valley is a rural region surrounding Blacksburg in northwestern Virginia. Like many rural regions, it faces an aging population, a While at PlaceMatters, I supported the New River Valley Livability Initiative Consortium, particularly the New River Valley Planning District Commission (NRVPDC), in creating the region’s first Livability Plan. This project focused on planning to enhance regional prosperity. I led the process of working with New River Valley Planning District Commission staff and various committees to define alternative scenarios for the future of the region, compile and analyze data, visualize scenario outcomes, and integrate the scenario analysis into the final study. 
 			</p>
@@ -366,40 +367,41 @@ var link = svg.append("g")
 				
 			</p>
 		</div>
-		<div class="columns small-12 medium-8 work-main carousel">
+		<div class="columns small-12 large-8 work-main carousel">
 			<div><img src="img/nrv1.png"></div>
 			<div><img src="img/nrv3.png"></div>
 			<div><img src="img/nrv4.png"></div>
 			<div><img src="img/nrv2.png"></div>
 		</div>
 	</div>	
-	<div class="row work-item">
-		<div class="columns small-12 medium-4 work-desc">
-			<h3>Zip Zip</h3>
-			<h5><a href="http://bradbarnett.github.io/zipzip">http://bradbarnett.github.io/zipzip</a></h5>
-			<p>
+		<div class="row work-item" data-center-top="opacity:0;" data-top-top="opacity:1;" data--100-top-bottom="opacity:0;">
+		<div class="columns small-12 large-4 work-desc">
+	
+		<a href="http://bradbarnett.github.io/zipzip">	<div class="work-title">Zip Zip</div></a>
+<!-- 			<h5>http://bradbarnett.github.io/zipzip</a></h5>
+ -->			<p>
 				Like many millenials, I've lived in several places over my lifetime. I wanted a way to visualize the differences between where I grew up (rural Alabama) and where I live today (Bay Area). ZipZip pulls data from the US Census, does some math, and compares the relative difference in two zip codes across a number of data points. 
 			</p>
 			<p>
 				The visualization itself is a twist on the traditional slope graph. By converting all the data points to (relative) percent change, I was able to start at a common beginning point: 0. The slope then represents the "change from zero" from the first zip code to the second zip code. The overall flatness or steepness of the lines as a whole shows how similar or different two zip codes are. Colors code the different categories of data, which provided some interesting patterns. In some cases, demographic differences are the greatest; in other locations the built environment is the most striking change. 
 			</p>
 		</div>
-		<div class="columns small-12 medium-8 work-main carousel">
+		<div class="columns small-12 large-8 work-main carousel">
 			<div><img src="img/zipzip1.png"></div>
 			<div><img src="img/zipzip2.png"></div>
 
 
 		</div>
 	</div>	
-	<div class="row work-item">
-		<div class="columns small-12 medium-4 work-desc">
-			<h3>Calthorpe Analytics Website</h3>
-			<h5><a href="http://www.calthorpeanalytics.com">http://www.calthorpeanalytics.com</a></h5>
+		<div class="row work-item" data-center-top="opacity:0;" data-top-top="opacity:1;" data--100-top-bottom="opacity:0;">
+		<div class="columns small-12 large-4 work-desc">
+			<a href="http://www.calthorpeanalytics.com"><div class="work-title">Calthorpe Analytics Website</div>
+			</a>
 			<p>
 				Calthorpe Analytics is a firm that brings powerful analytics about the impacts of planning decisions to regions and cities. The firm is a spin-off of Calthorpe Associates, widely regarded as one of the pre-eminent urban planning/design firms in the country. As Calthorpe Analytics launched, it became clear the new company needed a new web identity. I worked with other people on staff to develop content strategy, create the overall design, and implementation of our website.  
 			</p>
 		</div>
-		<div class="columns small-12 medium-8 work-main carousel">
+		<div class="columns small-12 large-8 work-main carousel">
 			<div><img src="img/ca1.png"></div>
 			<div><img src="img/ca2.png"></div>
 			<div><img src="img/ca3.png"></div>
@@ -416,13 +418,13 @@ var link = svg.append("g")
 		<div class="columns small-12">
 		<div class="row">
 			<div class="columns small-12 title">
-				<h1 class="title">More</h1>
+				<h1 class="title">GET IN TOUCH</h1>
 			</div>
 		</div>
-		<div class="columns small-12 large-3 big-text">
+<!-- 		<div class="columns small-12 large-3 big-text">
 			You can also get in touch with me or see what I'm up to on the following fine sites: 
 		</div>
-		<div class="columns small-12 left large-6 large-offset-2">
+ -->		<div class="columns small-12 left large-12 text-center">
 			<a href="http://www.twitter.com/bradrbarnett">
 			<div id="twitter" class="contact-link">
 				<img src="img/twitter.png">
@@ -445,18 +447,40 @@ var link = svg.append("g")
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/slick.min.js"></script>
+<script type="text/javascript" src="js/skrollr.min.js"></script>
+<script>
+      if(!(/Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i).test(navigator.userAgent || navigator.vendor || window.opera)){
+var s = skrollr.init({forceHeight: false});
+}
 
+
+</script>
 <script src="js/foundation.min.js"></script>
 <script>
   $(document).foundation();
   $(document).ready(function(){
   	$('#myModal').foundation('reveal', 'open')
   	$('.carousel').slick({
-  		arrows: false,
+  		arrows: true,
   		dots:true
-  		});
-  });
+  		},setNewHeight()	
 
+
+  		);
+  	
+
+
+  	
+
+  	  	function setNewHeight(){
+  		var workHeight = $("#work").height();
+  		var rowNumber = $(".work-item").length;
+  		var diffHeight = (300 * rowNumber) - workHeight;
+  		console.log(diffHeight);
+  		// $("#work").height(workHeight + diffHeight);
+  		console.log($("#work").height(workHeight + 400));
+  	}
+  });
 </script> 
 </body>
 </html>

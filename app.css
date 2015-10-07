@@ -1,5 +1,6 @@
 html, body {
   font-size: 14px; 
+  font-family: 'Noto Sans', 'Helvetica Neue', sans-serif;
 }
 
 section {
@@ -7,12 +8,29 @@ section {
 }
 
 a {
-  color: #468CA9;
+  color: rgba(222, 84, 58,.8);
+
+}
+
+.work-title, a .work-title{
+  font-size: 1.6875rem;
+  color: #22313F;
+  text-decoration: none;
+  font-weight:600;
+}
+
+a .work-title:after {
+  content: url(img/outbound.svg);
+  padding-left: 5px;
+  width:16px;
+}
+
+a .work-title:hover {
+  text-decoration: underline;
 }
 
 a:hover {
-  color: #468CA9;
-  text-decoration: underline;
+  color: rgba(222, 84, 58,1);
 }
 
 ul#menu {
@@ -30,24 +48,28 @@ ul#menu li {
 }
 
 #introbg {
-	background-color: #FAF3D7;
+	  background-color: #FAF3D7;
     background-image: url('img/nyc.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    filter: blur(19px);
     position:absolute;
-    height:100%;
+    height: 100%;
     top:0;
     left:0;
     width:100%;
+    background-attachment: fixed;
 }
 
-#about, #sankey, #intro {
-	height: 120%;
+#intro {
+  height: inherit;
+}
+
+#about, #sankey, #intro{
+  padding-bottom: 5rem;
 }
 
 #ending {
-  height: 75%;
+  padding-bottom: 10rem;
 }
 #sankey {
 	padding-top: 2rem;
@@ -162,10 +184,13 @@ ul#about-questions li {
 	text-transform: uppercase;
 	line-height: 1.2;
 	letter-spacing: 9px;
-	margin-top: 2rem;
+	margin-top: 22rem;
     opacity: 0.9;
 }
 
+#hi-there, #my-name {
+  position: fixed;
+}
 
 #start {
 	height:100%;
@@ -196,8 +221,8 @@ height: 500px;
     fill: #696648;
     font-size: 12px;
     font-family: 'Noto Sans',sans-serif;
-    font-weight: 600;
-    opacity: .7;
+    font-weight: 400;
+    opacity: 1;
 }
 
 .link {
@@ -221,14 +246,14 @@ height: 500px;
 }
 
 .contact-link {
-  width: 150px;
-  height: 150px;
-  text-align: center;
-  border-radius: 150px;
-  display: inline-block;
-  margin-right: 15px;
-  opacity: .6;
-  transition: opacity .5s;
+    width: 75px;
+    height: 75px;
+    text-align: center;
+    border-radius: 150px;
+    display: inline-block;
+    margin-right: 15px;
+    opacity: .6;
+    transition: opacity .5s;
 }
 
 .contact-link:hover {
@@ -248,8 +273,8 @@ height: 500px;
 }
 
 .contact-link img {
-    width: 75px;
-    padding-top: 40px;
+    width: 55px;
+    padding-top: 12px;
 }
 
 
@@ -273,6 +298,7 @@ height: 500px;
 .slick-dots li button:hover:before, .slick-dots li button:focus:before { opacity: 1; }
 .slick-dots li button:before { position: absolute; top: 0; left: 0; content: "•"; width: 20px; height: 20px; font-family: "slick"; font-size: 30px; line-height: 20px; text-align: center; color: black; opacity: 0.25; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 .slick-dots li.slick-active button:before { color: black; opacity: 0.75; }
+.slick-prev, .slick-next { visibility:hidden; height:0; }
 
 
 /*FOUNDATION MODS*/
@@ -285,3 +311,101 @@ height: 500px;
 
 .top-bar { background-color: transparent; }
 .top-bar-section { background-color: transparent !important;  }
+
+
+@media only screen and (max-width: 55.429em) { 
+
+#introbg {
+    background-color: #FAF3D7;
+    background-image: url('img/nyc.jpg');
+    background-repeat: no-repeat;
+    background-size: ;
+/*    filter: blur(19px);*/
+    position:absolute;
+    min-height:100px;
+    top:0;
+    left:0;
+    width:100%;
+    background-attachment: fixed;
+}
+
+div.title {
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+}
+
+#hi-there {
+  margin-top: 10rem;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+#my-name {
+  font-family: 'Noto Sans', sans-serif;
+  font-weight: 700;
+  font-size: 250%;
+  text-transform: uppercase;
+  line-height: 1.2;
+  letter-spacing: 9px;
+  margin-top: 2rem;
+  opacity: 0.9;
+}
+
+#hi-there, #my-name {
+  position: inherit;
+}
+
+.big-text {
+  font-family: 'Noto Sans', sans-serif;
+  line-height: 1.3;
+  font-size:150%;
+}
+
+.carousel div{
+  height: inherit;
+}
+
+.slick-track {background-color: rgba(181, 178, 178, 0.2);}
+
+.slick-dots { 
+  opacity: 0; 
+}
+
+.slick-prev, .slick-next {
+    position: absolute;
+    display: block;
+    height: 26px;
+    width: 20px;
+    line-height: 0;
+    font-size: 0;
+    cursor: pointer;
+    background: gray;
+    color: white;
+    top: 45%;
+    margin-top: -10px;
+    padding: 0;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    z-index: 100;
+}
+
+.slick-prev:before, .slick-next:before { font-family: "slick"; font-size: 20px; line-height: 1; color: white; opacity: 0.75; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.slick-prev, .slick-next { visibility:inherit; height:inherit; }
+
+.slick-prev { left: 5px; }
+[dir="rtl"] .slick-prev { left: auto; right: 5px; }
+.slick-prev:before { content: '<'; }
+[dir="rtl"] .slick-prev:before { content: '<'; }
+
+.slick-next { right: 5px; }
+[dir="rtl"] .slick-next { left: 5px; right: auto; }
+.slick-next:before { content: '>'; }
+[dir="rtl"] .slick-next:before { content: '>'; }
+
+.slick-slide img {
+    max-height: 300px;
+    overflow: hidden;
+}
+
+} 
